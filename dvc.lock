@@ -1,0 +1,112 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python -m src.data.data_ingestion
+    deps:
+    - path: src/data/data_ingestion.py
+      hash: md5
+      md5: 62caa5bc08227ce23b49d67215c161c1
+      size: 3922
+    params:
+      params.yaml:
+        data_ingestion.test_size: 0.2
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: e673b9be22e4dcfbda494ebe334e34ae.dir
+      size: 891183
+      nfiles: 2
+  data_preprocessing:
+    cmd: python -m src.data.data_preprocessing
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: e673b9be22e4dcfbda494ebe334e34ae.dir
+      size: 891183
+      nfiles: 2
+    - path: src/data/data_preprocessing.py
+      hash: md5
+      md5: b15114d4db6431ae7d52ed7611997968
+      size: 3157
+    outs:
+    - path: data/interim
+      hash: md5
+      md5: f3bff448fbbfce521d12b5bdc31fe5d9.dir
+      size: 354523
+      nfiles: 2
+    - path: models/label_encoders.pkl
+      hash: md5
+      md5: d457e2d40ba94b636c386c79fbb60bb0
+      size: 1569
+  feature_engineering:
+    cmd: python -m src.features.feature_engineering
+    deps:
+    - path: data/interim
+      hash: md5
+      md5: f3bff448fbbfce521d12b5bdc31fe5d9.dir
+      size: 354523
+      nfiles: 2
+    - path: src/features/feature_engineering.py
+      hash: md5
+      md5: 438f4a6d44abe97c0902e45aa0d39c8b
+      size: 3470
+    params:
+      params.yaml:
+        feature_engineering.target_col: Churn
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 7f251fb1151958efdd4f43cdb8b2a487.dir
+      size: 2616816
+      nfiles: 2
+    - path: models/scaler.pkl
+      hash: md5
+      md5: 1b3448db0cf799376142bc4bcf04d0e0
+      size: 1274
+  model_building:
+    cmd: python -m src.model.model_building
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 7f251fb1151958efdd4f43cdb8b2a487.dir
+      size: 2616816
+      nfiles: 2
+    - path: src/model/model_building.py
+      hash: md5
+      md5: 918b7acdaa363767d9ab3ab18885c210
+      size: 2851
+    params:
+      params.yaml:
+        model_training.C: 1
+        model_training.solver: liblinear
+  model_evaluation:
+    cmd: python -m src.model.model_evaluation
+    deps:
+    - path: models/model.pkl
+      hash: md5
+      md5: fb842149816c6a2ae7bea7078bc20a61
+      size: 865
+    - path: src/model/model_evaluation.py
+      hash: md5
+      md5: 4df6509f5f7d1d12c0cb30530ede52c5
+      size: 6793
+    outs:
+    - path: reports/experiment_info.json
+      hash: md5
+      md5: b66595982bdecf17d18bd1fc8a45cd61
+      size: 118
+    - path: reports/metrics.json
+      hash: md5
+      md5: 0b75e8fd300b2837fe2e802d5e30dafd
+      size: 332
+  model_registration:
+    cmd: python -m src.model.register_model
+    deps:
+    - path: reports/experiment_info.json
+      hash: md5
+      md5: b66595982bdecf17d18bd1fc8a45cd61
+      size: 118
+    - path: src/model/register_model.py
+      hash: md5
+      md5: fb5feb5572b19a8081d03faf34dbc6a8
+      size: 3217
