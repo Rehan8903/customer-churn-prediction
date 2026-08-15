@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Churn Signal — Retention Risk Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="noise-layer" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M6 22C6 22 9 12 16 12C23 12 26 22 26 22" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+      <path d="M9.5 22C9.5 22 11.5 16 16 16C20.5 16 22.5 22 22.5 22" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.65"/>
+      <circle cx="16" cy="22" r="2.2" fill="currentColor"/>
+    </svg>
+    <div class="brand-text">
+      <span class="brand-name">CHURN&nbsp;SIGNAL</span>
+      <span class="brand-sub">Retention risk console</span>
+    </div>
+  </div>
+  <div class="topbar-meta">
+    <span class="meta-dot" aria-hidden="true"></span>
+    <span>Model <strong>churn_prediction_model</strong> · staging</span>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- FORM -->
+  <form id="churn-form" class="panel form-panel" autocomplete="off">
+
+    <div class="panel-head">
+      <h1>New assessment</h1>
+      <p>Enter the account's current profile to read its churn signal.</p>
+    </div>
+
+    <fieldset class="card">
+      <legend>Profile</legend>
+
+      <div class="field">
+        <label>Gender</label>
+        <div class="segmented" data-field="gender">
+          <button type="button" class="seg-btn active" data-value="Male">Male</button>
+          <button type="button" class="seg-btn" data-value="Female">Female</button>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="tenure">Tenure <span class="unit" id="tenure-out">12 mo</span></label>
+          <input type="range" id="tenure" name="tenure" min="0" max="72" value="12" step="1">
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <div class="field toggle-field">
+          <label for="SeniorCitizen">Senior citizen</label>
+          <button type="button" class="toggle" id="SeniorCitizen" data-field="SeniorCitizen" data-value="No" aria-pressed="false"><span class="toggle-knob"></span></button>
+        </div>
+        <div class="field toggle-field">
+          <label for="Partner">Has partner</label>
+          <button type="button" class="toggle" id="Partner" data-field="Partner" data-value="No" aria-pressed="false"><span class="toggle-knob"></span></button>
+        </div>
+        <div class="field toggle-field">
+          <label for="Dependents">Has dependents</label>
+          <button type="button" class="toggle" id="Dependents" data-field="Dependents" data-value="No" aria-pressed="false"><span class="toggle-knob"></span></button>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="card">
+      <legend>Services</legend>
+
+      <div class="field-grid">
+        <div class="field toggle-field">
+          <label for="PhoneService">Phone service</label>
+          <button type="button" class="toggle active" id="PhoneService" data-field="PhoneService" data-value="Yes" aria-pressed="true"><span class="toggle-knob"></span></button>
+        </div>
+        <div class="field">
+          <label for="MultipleLines">Multiple lines</label>
+          <select id="MultipleLines" name="MultipleLines">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+            <option value="No phone service">No phone service</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Internet service</label>
+        <div class="segmented" data-field="InternetService">
+          <button type="button" class="seg-btn" data-value="DSL">DSL</button>
+          <button type="button" class="seg-btn active" data-value="Fiber optic">Fiber optic</button>
+          <button type="button" class="seg-btn" data-value="No">None</button>
+        </div>
+      </div>
+
+      <div class="field-grid two-col">
+        <div class="field">
+          <label for="OnlineSecurity">Online security</label>
+          <select id="OnlineSecurity" name="OnlineSecurity">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+            <option value="No internet service">No internet service</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="OnlineBackup">Online backup</label>
+          <select id="OnlineBackup" name="OnlineBackup">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+            <option value="No internet service">No internet service</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="DeviceProtection">Device protection</label>
+          <select id="DeviceProtection" name="DeviceProtection">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+            <option value="No internet service">No internet service</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="TechSupport">Tech support</label>
+          <select id="TechSupport" name="TechSupport">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+            <option value="No internet service">No internet service</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="StreamingTV">Streaming TV</label>
+          <select id="StreamingTV" name="StreamingTV">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+            <option value="No internet service">No internet service</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="StreamingMovies">Streaming movies</label>
+          <select id="StreamingMovies" name="StreamingMovies">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+            <option value="No internet service">No internet service</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="card">
+      <legend>Account &amp; billing</legend>
+
+      <div class="field">
+        <label>Contract</label>
+        <div class="segmented" data-field="Contract">
+          <button type="button" class="seg-btn active" data-value="Month-to-month">Month-to-month</button>
+          <button type="button" class="seg-btn" data-value="One year">One year</button>
+          <button type="button" class="seg-btn" data-value="Two year">Two year</button>
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <div class="field toggle-field">
+          <label for="PaperlessBilling">Paperless billing</label>
+          <button type="button" class="toggle active" id="PaperlessBilling" data-field="PaperlessBilling" data-value="Yes" aria-pressed="true"><span class="toggle-knob"></span></button>
+        </div>
+        <div class="field">
+          <label for="PaymentMethod">Payment method</label>
+          <select id="PaymentMethod" name="PaymentMethod">
+            <option value="Electronic check">Electronic check</option>
+            <option value="Mailed check">Mailed check</option>
+            <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+            <option value="Credit card (automatic)">Credit card (automatic)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="MonthlyCharges">Monthly charges <span class="unit" id="monthly-out">$70.00</span></label>
+        <input type="range" id="MonthlyCharges" name="MonthlyCharges" min="18" max="120" value="70" step="0.5">
+      </div>
+
+      <div class="field">
+        <label for="TotalCharges">Total charges to date</label>
+        <input type="number" id="TotalCharges" name="TotalCharges" min="0" step="0.01" value="840.00">
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary" id="run-btn">
+        <span>Run assessment</span>
+      </button>
+      <button type="button" class="btn-ghost" id="reset-btn">Reset</button>
+    </div>
+  </form>
+
+  <!-- RESULT -->
+  <aside class="panel result-panel">
+    <div class="result-sticky">
+
+      <div class="gauge-wrap" id="gauge-wrap" data-state="idle">
+        <svg viewBox="0 0 220 220" class="gauge-svg">
+          <circle class="gauge-track" cx="110" cy="110" r="92"/>
+          <circle class="gauge-fill" id="gauge-fill" cx="110" cy="110" r="92"/>
+          <circle class="gauge-sweep" id="gauge-sweep" cx="110" cy="110" r="92"/>
+        </svg>
+        <div class="gauge-center">
+          <span class="gauge-value" id="gauge-value">—</span>
+          <span class="gauge-label">churn probability</span>
+        </div>
+      </div>
+
+      <div class="risk-pill" id="risk-pill" data-level="idle">
+        <span class="risk-dot"></span>
+        <span id="risk-text">Awaiting input</span>
+      </div>
+
+      <div class="result-detail" id="result-detail">
+        <p id="result-copy">Fill in the account profile and run an assessment to see the retention read here.</p>
+      </div>
+
+      <dl class="signal-breakdown" id="signal-breakdown" hidden>
+        <div>
+          <dt>Model confidence</dt>
+          <dd id="detail-confidence">—</dd>
+        </div>
+        <div>
+          <dt>Suggested action</dt>
+          <dd id="detail-action">—</dd>
+        </div>
+      </dl>
+
+    </div>
+  </aside>
+
+</main>
+
+<footer class="footer-note">
+  Predictions are model estimates for retention triage, not a guarantee of customer behavior.
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
