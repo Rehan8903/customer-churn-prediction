@@ -29,6 +29,9 @@ jobs:
           pip install -r requirements.txt
           pip install pytest dvc
 
+      - name: Debug installed mlflow version
+        run: pip show mlflow
+
       - name: Reproduce DVC pipeline
         run: dvc repro
 

@@ -165,7 +165,11 @@ def main():
                     mlflow.log_param(param_name, param_value)
 
             # Log model to MLflow — capture the returned info instead of assuming the path
-            logged_model_info = mlflow.sklearn.log_model(clf, name="model")
+            try:
+                logged_model_info = mlflow.sklearn.log_model(clf, name="model")
+            except TypeError:
+    # Older MLflow versions (<2.16) don't support the `name` kwarg
+                logged_model_info = mlflow.sklearn.log_model(clf, artifact_path="model")
 
             # Save model info using the actual URI MLflow gave us
             save_model_info(run.info.run_id, logged_model_info.model_uri, 'reports/experiment_info.json')
