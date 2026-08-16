@@ -1,0 +1,39 @@
+# Version control / CI
+.git
+.github
+
+# DVC internals — not needed inside the running container
+.dvc
+.dvcignore
+dvc.lock
+
+# Data and training artifacts not needed to SERVE the model
+# (data/raw, interim, processed are training-time only; the container
+# only needs the already-trained models/ folder, copied explicitly
+# in the Dockerfile)
+data/
+notebooks/
+reports/
+
+# Python cruft
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+
+# Environments
+.venv/
+venv/
+env/
+
+# Local secrets — never bake tokens into an image
+.env
+.dvc/config.local
+
+# Editor/OS junk
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
