@@ -9,4 +9,4 @@ model_training:
   C: 1
   solver: liblinear
   penalty: l1
-  class_weight: null   # try 'balanced' as your next experiment given the class imbalance
+  class_weight: balanced
