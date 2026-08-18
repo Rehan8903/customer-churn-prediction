@@ -78,18 +78,6 @@ customer-churn-prediction/
 - ~7,000 customer records, 20 features (demographics, account info, services subscribed)
 - Target: binary churn (Yes/No), ~26% positive class — handled with `class_weight='balanced'`
 
-## Model & results
-
-| Metric | Score |
-|---|---|
-| Accuracy | *(fill in from your latest reports/metrics.json)* |
-| Precision | |
-| Recall | |
-| F1 Score | |
-
-*(Pull these straight from `reports/metrics.json` after your latest `dvc repro` run, so the README always reflects the actual registered model.)*
-
-Model selection was based on comparing Logistic Regression, Random Forest, and Gradient Boosting across label encoding and one-hot encoding, prioritizing **recall** — missing an actual churner is costlier than a false-positive retention offer.
 
 ## Running locally
 
@@ -177,4 +165,4 @@ Response:
 ## Author
 
 **Rehan Sarfraz**
-*(add your LinkedIn / portfolio link here)*
+https://lnkd.in/p/d5T_auTK
